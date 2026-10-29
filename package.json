@@ -1,0 +1,14 @@
+{
+  "name": "gallery-route-planner",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Interactive 3D exhibits, A* grid paths and seeded genetic search for gallery visit ordering.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.cjs",
+    "example": "node scripts/plan.cjs --stops C,A,D,B --seed 42"
+  }
+}
