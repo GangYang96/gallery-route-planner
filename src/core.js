@@ -49,7 +49,10 @@
     if (extra) set.add('4,4');
     return set;
   }
-  function path(from, to, walls) {
+  function path(from, to, walls, dimensions = { width: W, height: H }) {
+    const W = dimensions.width, H = dimensions.height;
+    if (!Number.isInteger(W) || !Number.isInteger(H) || W < 1 || H < 1 || W > 40 || H > 40) throw Error('MAP_SIZE');
+    if ([from, to].some(p => !Array.isArray(p) || p.length !== 2 || !p.every(Number.isInteger))) throw Error('COORDINATES');
     if ([from, to].some(p => p[0] < 0 || p[0] >= W || p[1] < 0 || p[1] >= H || walls.has(p.join(',')))) return null;
     const key = p => p.join(','),
       open = [{

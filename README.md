@@ -25,6 +25,23 @@ node --test tests/*.test.cjs
 
 CLI 默认输出 JSON 到终端；添加 `--output outputs/result.json` 保存文件。输出文件已存在时会报错，需使用新文件名。所有命令从仓库根目录运行。
 
+
+## v1.1.0 · 自定义地图与路线算法对比
+
+- JSON 地图导入导出，支持3–40格宽高、最多10个展品；附六展品地图样例。
+- 按网格坐标临时封闭通道，可选择参观结束返回入口；不可达时指出相关分段。
+- A* 分段寻路，最近邻、遗传算法和 Held–Karp 精确排序对比；显示与最优值的步数差。
+- 展示路线分段，按每步秒数和各展品停留时间估算总时长；导出地图、参数和路线。
+
+规划默认四展品路线（28步）→ 勾选封闭西侧快捷通道（36步）→ 勾选返回入口 → 比较三种算法 → 导入 examples/gallery-six.json → 查看六个展品和逐段路线。
+
+```sh
+node scripts/plan.cjs --map examples/gallery-six.json --stops F,A,E,B,D,C --method exact --return
+node scripts/plan.cjs --stops C,A,D,B --method genetic --closed --seed 42 --seconds-per-step 2
+```
+
+新增逻辑见 [src/planner.js](src/planner.js)，数据格式和边界见 [设计说明](docs/architecture.md)。全部 17 项 Node 测试通过；版本变更见 [CHANGELOG.md](CHANGELOG.md)。
+
 ## 仓库内容
 
 | 路径 | 内容 |
@@ -53,3 +70,5 @@ CLI 默认输出 JSON 到终端；添加 `--output outputs/result.json` 保存�
 ## English
 
 Interactive 3D exhibits, A* grid paths and seeded genetic search for gallery visit ordering. Open `index.html` directly, or serve this folder with Python. The browser and CLI use the same `src/core.js`. This is an independent, AI-assisted public prototype using synthetic fixtures, published in October 2026; it is not the original employer system, a model benchmark, or a production service.
+
+Contributions: see [CONTRIBUTING.md](CONTRIBUTING.md). Version 1.1 adds 自定义地图与路线算法对比; browser and CLI share the new module.
